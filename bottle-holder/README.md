@@ -1,5 +1,7 @@
 # THD CP-Lift bottle holder
 
+**Release:** [v1.0](https://github.com/sasha-nordiclab/jobo-thd-cp-lift-parts/releases/tag/bottle-holder-v1.0). Download the STEP files and the FreeCAD model as one zip.
+
 An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It holds **four standard JOBO bottles** in the water bath.
 
 - It mounts with stainless steel countersunk screws through the 3 mm bath wall. A printed nut bar on the outside of the bath holds the nuts.

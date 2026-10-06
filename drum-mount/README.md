@@ -1,5 +1,8 @@
 # JOBO drum mount for the THD CP-Lift
 
+> [!WARNING]
+> **Experimental, work in progress.** This part is still being developed and has no release yet. The geometry may change, and it has not been strength-checked. Print and use it at your own risk.
+
 A two-part mount that holds a JOBO drum on the THD CP-Lift:
 - **Mount** — an 80 × 80 mm plate with locating rings, a Ø 24 mm centre bore and a pocket for the motor.
 - **Lock** — a sliding latch with a printed spring. To release the drum, pull the finger ears; the spring pushes the latch back. Travel is 3.5 mm.
