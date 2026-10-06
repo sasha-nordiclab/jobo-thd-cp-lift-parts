@@ -61,7 +61,8 @@ The nut bar is sized to the screw. `bolt_len` in the spreadsheet sets the screw 
 - The bath holes are a standard M6 clearance (6.6 mm). The M4 screws have play in them, but the countersunk heads and the nut bar hold everything in place.
 - The rear face of the holder is tilted 7.5° to sit flat on the bath wall.
 - Each bottle's side rib catches the ledge under the front of the frame, so a floating bottle cannot lift out.
-- Print the nut bar flat, bath side down, with the pockets facing up: about 40 min, 16 g (as is) to 21 g (solid).
+- The nut bar has a through slot between the nuts, so material stays only where the nuts press; `slot_w` and `slot_off` set it.
+- Print the nut bar flat, bath side down, with the pockets facing up: about 34 min and 12.5 g.
 
 ## Adapting it to other bottles
 
