@@ -7,6 +7,14 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 
 ▶ **Videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PLADhkNYpSGAc)
 
+![Two modules on the bath wall with nut bars and gaskets](docs/img/assembled.png)
+
+| Bottle side | Bath side |
+|---|---|
+| ![Bottle side](docs/img/view_1_bottle_side.png) | ![Bath side](docs/img/view_2_bath_side.png) |
+| **Side** | **Top** |
+| ![Side](docs/img/view_3_side.png) | ![Top](docs/img/view_4_top.png) |
+
 | | Per module |
 |---|---|
 | Size | 120.4 × 159.5 × 73.5 mm |
@@ -39,6 +47,10 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 - **Result:** in OrcaSlicer on a Bambu Lab A1, about 3 h 05 min and 126 g per module.
 
 ## Mounting
+
+![Exploded view: holder, bath wall, TPU gasket, nut bar, nuts](docs/img/exploded.png)
+
+[▶ Explode animation](docs/img/exploded.mp4)
 
 **Per module you need:**
 - 2 × **M4 × 20 countersunk Torx screws**, 304 stainless (ISO 14581, 90° head Ø 8.4 mm). They fit the Ø 9.2 mm countersink.
@@ -124,6 +136,16 @@ Loads:
 - A value of 1.0 or less passes with the full safety factor.
 - Values up to 2 use part of the safety factor of 2 but stay below the material strength. The worst case is a sideways knock on the divider, at the corner of the opening.
 - The front ledge and overall layout come from a holder that is already in use.
+
+Deformation under each load, strongly exaggerated (colour = deflection, arrows = load):
+
+| Floating bottles | Hit from above |
+|---|---|
+| ![Floating bottles](docs/img/fem/story_1_buoyancy.png) | ![Hit from above](docs/img/fem/story_2_top_impact.png) |
+| **Hit on the front edge** | **Hit on the divider** |
+| ![Hit on the front edge](docs/img/fem/story_3_front_impact.png) | ![Hit on the divider](docs/img/fem/story_4_divider_impact.png) |
+
+[▶ Animation of all four load cases](docs/img/fem/loads_story.mp4)
 
 The full design report (how it works, exploded view, screw and seal calculations, deformation pictures) is in [docs/report.md](docs/report.md). The method, the design changes and the rejected variants are in [docs/strength.md](docs/strength.md).
 
