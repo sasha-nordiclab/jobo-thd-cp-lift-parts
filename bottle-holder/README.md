@@ -83,6 +83,8 @@ Open the model in FreeCAD and edit the spreadsheet `params`. Everything else, in
 | `web_h` | 70.5 | depth of the side walls below the frame |
 | `lip_h` | 18 | depth of the front wall |
 
+**Bath wall tilt.** If your bath wall leans differently, change `rear_tilt` (default 7.5°, 0 = vertical). The whole rear wall, the frame edge, the screw holes and bosses, the recesses, the nut bar and the gasket all follow. Rebuilds were checked at 0°, 3°, 7.5°, 10° and 15°: the mounting face stays one flat plane and the screw length is unchanged.
+
 What follows automatically:
 - the bay pitch, module length, frame, recesses, screw positions and the mirror;
 - recesses switch themselves off when their zone gets too small;
