@@ -1,0 +1,9 @@
+.DS_Store
+*.FCBak
+*.FCStd1
+*.FCStd2
+__pycache__/
+*.inp
+*.frd
+*.dat
+*.npz
