@@ -61,9 +61,9 @@ The screws go in from the bottle side, through the holder and the bath's Ø 6.6 
 The nut bar is sized to the screw. `bolt_len` in the spreadsheet sets the screw length, and the bar thickness follows (12.3 mm for M4 × 20, at least 5.4 mm). The tip then ends just past the nut and does not stick out behind the bath; `bolt_tip` shows the overhang.
 
 - **Sealing the bath holes.** A printed TPU 95A seal sits on each screw between the holder and the bath wall, so water does not leak out through the holes.
-  - The Ø 15 mm flange lies in a 0.8 mm groove in the holder's rear face and is squeezed by 0.4 mm. The holder still bears on the bath wall plastic to plastic, so neither the strength check nor the screw length changes.
-  - The Ø 6.4 mm sleeve fills the bath hole.
-  - Its Ø 3.6 mm bore grips the M4 thread, which closes the path along the screw.
+  - The Ø 17.9 × 1.4 mm flange fills an Ø 18 × 1.0 mm groove in the holder's rear face. The holder still bears on the bath wall plastic to plastic, so neither the strength check nor the screw length changes.
+  - Tightening squeezes the flange by 0.4 mm. The groove walls stop it from spreading outwards, so the TPU is pushed inwards and closes its Ø 4.2 mm bore onto the M4 screw.
+  - The Ø 6.3 × 2.6 mm sleeve sits in the bath's Ø 6.6 mm hole.
   - The bath pressure is tiny (0.01–0.02 bar for 10–20 cm of water).
   - Print the seals flange down, 100 % infill.
 - The bath holes are a standard M6 clearance (6.6 mm). The M4 screws have play in them, but the countersunk heads and the nut bar hold everything in place.
