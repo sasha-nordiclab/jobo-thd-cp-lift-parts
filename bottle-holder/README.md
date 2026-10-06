@@ -1,14 +1,17 @@
 # THD CP-Lift bottle holder
 
-A 3D-printable holder for 600 ml square chemistry bottles. It screws to the wall of a THD CP-Lift and holds the bottles in the water bath.
+An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It holds **four standard JOBO bottles** in the water bath.
 
-Each module holds two bottles. Print one **Module** and one **Module mirrored**; together they hold four bottles.
+- It mounts with stainless steel countersunk screws through the 3 mm bath wall. A printed nut bar on the outside of the bath holds the nuts.
+- Each module holds two bottles. Print one **Module**, one **Module mirrored** and two **Nut bars**.
+
+▶ **Videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PLADhkNYpSGAc)
 
 | | Per module |
 |---|---|
 | Size | 120.4 × 159.5 × 73.5 mm |
 | Bottle opening | 93.4 × 71.4 mm, corner radius 4 mm (×2) |
-| Mounting | 2 × M4 countersunk screws |
+| Mounting | 2 × M4 × 14 countersunk screws (stainless) + 2 nuts in a nut bar |
 | Material | PETG |
 | Mass / print time | ≈ 126 g / ≈ 3 h (solid, see [Printing](#printing)) |
 
@@ -16,9 +19,10 @@ Each module holds two bottles. Print one **Module** and one **Module mirrored**;
 
 | Path | What |
 |---|---|
-| `cad/THD_CP_Lift_Bottle_Holder.FCStd` | Parametric FreeCAD model: one body `Module` plus its mirror `Module mirrored` |
+| `cad/THD_CP_Lift_Bottle_Holder.FCStd` | Parametric FreeCAD model: bodies `Module` and `Nut bar`, plus their mirrors |
 | `step/THD_CP_Lift_Holder_Module.step` | Module, for slicing or other CAD |
 | `step/THD_CP_Lift_Holder_Module_Mirrored.step` | Mirrored module |
+| `step/THD_CP_Lift_Nut_Bar.step` | Nut bar; print two, the same part fits both modules |
 | `docs/strength.md` | How the part was checked and why it looks the way it does |
 | `scripts/fem/` | The strength calculation (CalculiX), for the default size |
 
@@ -34,14 +38,34 @@ Each module holds two bottles. Print one **Module** and one **Module mirrored**;
 
 ## Mounting
 
-- Two M4 countersunk screws per module (ISO 10642 / DIN 7991). Insert them from the bottle side; the countersink is 90°, Ø 9.2 mm.
-- Choose the screw length to suit your wall. Tighten the screws; the strength check assumes a clamped joint.
-- The rear face is tilted 7.5° to sit flat on the lift wall.
+**Per module you need:**
+- 2 × **M4 × 14 countersunk screws**, stainless A2/A4. ISO 10642 (hex socket) or DIN 7991 both fit the 90° Ø 9.2 mm countersink.
+- 2 × **M4 nuts** ISO 4032, stainless.
+- 1 × **printed nut bar**.
+
+The screws go in from the bottle side, through the holder and the bath's Ø 6.6 mm holes. The nuts sit in the hex pockets of the nut bar on the outside of the bath.
+
+**Why 14 mm.** The stack along the screw:
+
+| Part of the stack | mm |
+|---|---|
+| Head top to the holder's mounting face (ISO 10642 head) | 4.3 |
+| Bath wall | 3.0 |
+| Nut bar under the nut; it bridges the Ø 6.6 mm hole | 2.0 |
+| Nut ISO 4032 | 3.2 |
+| Thread past the nut (1 pitch) | 0.7 |
+| **Minimum** | **13.2 → M4 × 14** |
+
+A 10 mm screw ends 2.7 mm past the bath wall, too short even for a bare nut. A standard M4 nut is 7 mm across flats, so it would bear on only a 0.2 mm rim of a 6.6 mm hole anyway. With thin nuts (ISO 4035, 2.2 mm), set `nut_m` to 2.2: the bar gets 1 mm thinner and M4 × 12 is enough. The spreadsheet cell `bolt_min` always shows the minimum screw length.
+
+- The bath holes are a standard M6 clearance (6.6 mm). The M4 screws have play in them, but the countersunk heads and the nut bar hold everything in place.
+- The rear face of the holder is tilted 7.5° to sit flat on the bath wall.
 - Each bottle's side rib catches the ledge under the front of the frame, so a floating bottle cannot lift out.
+- Print the nut bar flat, bath side down, with the pockets facing up: about 22 min and 9 g solid.
 
 ## Adapting it to other bottles
 
-Open the model in FreeCAD and edit the spreadsheet `params`. Everything else follows these five values:
+Open the model in FreeCAD and edit the spreadsheet `params`. Everything else, including the nut bar, follows these five values:
 
 | Parameter | Default | Meaning |
 |---|---|---|
@@ -60,6 +84,7 @@ What follows automatically:
 - **Build:** wall and frame thickness, gaps.
 - **Mount:** wall tilt, screw positions, bosses.
 - **Lightening:** recess depths (0 = none).
+- **Nut bar:** bath wall, nut size, bar thickness and width, plus `bolt_min`, the minimum screw length.
 
 Do not edit the **Derived** cells.
 

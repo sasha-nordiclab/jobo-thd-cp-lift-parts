@@ -2,9 +2,11 @@
 
 3D-printable parts for working with JOBO drums on the THD CP-Lift. Each part is a parametric FreeCAD model with STEP files and printing notes.
 
+▶ **Videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PLADhkNYpSGAc)
+
 | Part | What it does | Folder |
 |---|---|---|
-| **Bottle holder** | Holds 600 ml square chemistry bottles in the water bath, two per module, with a mirrored second module. Strength-checked by FEM. | [`bottle-holder/`](bottle-holder/) |
+| **Bottle holder** | An optimised redesign for this machine: holds four standard JOBO bottles in the water bath. It mounts with stainless countersunk screws through the 3 mm bath wall into a printed nut bar. Strength-checked by FEM. | [`bottle-holder/`](bottle-holder/) |
 | **Drum mount** | Holds a JOBO drum on the lift, with a sliding lock and a printed spring. | [`drum-mount/`](drum-mount/) |
 
 ## Common notes
