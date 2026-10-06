@@ -43,7 +43,7 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 - 2 × **M4 × 20 countersunk Torx screws**, 304 stainless (ISO 14581, 90° head Ø 8.4 mm). They fit the Ø 9.2 mm countersink.
 - 2 × **M4 nuts** ISO 4032, stainless.
 - 1 × **printed nut bar**.
-- 2 × **TPU seals**.
+- 2 × **TPU seals** (under the nut bar).
 
 The screws go in from the bottle side, through the holder and the bath's Ø 6.6 mm holes. The nuts sit in the hex pockets of the nut bar on the outside of the bath.
 
@@ -60,17 +60,17 @@ The screws go in from the bottle side, through the holder and the bath's Ø 6.6 
 
 The nut bar is sized to the screw. `bolt_len` in the spreadsheet sets the screw length, and the bar thickness follows (12.3 mm for M4 × 20, at least 5.4 mm). The tip then ends just past the nut and does not stick out behind the bath; `bolt_tip` shows the overhang.
 
-- **Sealing the bath holes.** A printed TPU 95A seal sits on each screw between the holder and the bath wall, so water does not leak out through the holes.
-  - The Ø 17.9 × 1.4 mm flange fills an Ø 18 × 1.0 mm groove in the holder's rear face. The holder still bears on the bath wall plastic to plastic, so neither the strength check nor the screw length changes.
+- **Sealing the bath holes.** A printed TPU 95A seal goes on each screw on the outside of the bath, under the nut bar, so water does not leak out through the holes.
+  - The Ø 15.9 × 1.4 mm flange fills an Ø 16 × 1.0 mm groove on the bath side of the nut bar.
   - Tightening squeezes the flange by 0.4 mm. The groove walls stop it from spreading outwards, so the TPU is pushed inwards and closes its Ø 4.2 mm bore onto the M4 screw.
-  - The Ø 6.3 × 2.6 mm sleeve sits in the bath's Ø 6.6 mm hole.
-  - The bath pressure is tiny (0.01–0.02 bar for 10–20 cm of water).
+  - The Ø 6.3 mm sleeve goes into the bath's Ø 6.6 mm hole from outside.
+  - The holder itself has no groove, so its strength check is unchanged. The bath pressure is tiny (0.01–0.02 bar).
   - Print the seals flange down, 100 % infill.
 - The bath holes are a standard M6 clearance (6.6 mm). The M4 screws have play in them, but the countersunk heads and the nut bar hold everything in place.
 - The rear face of the holder is tilted 7.5° to sit flat on the bath wall.
 - Each bottle's side rib catches the ledge under the front of the frame, so a floating bottle cannot lift out.
 - The nut bar has a through slot between the nuts, so material stays only where the nuts press; `slot_w` and `slot_off` set it.
-- Print the nut bar flat, bath side down, with the pockets facing up: about 34 min and 12.5 g.
+- Print the nut bar flat, bath side down, with the pockets facing up: about 40 min and 17 g. It is 20 mm wide to carry the seal grooves.
 
 ## Adapting it to other bottles
 
