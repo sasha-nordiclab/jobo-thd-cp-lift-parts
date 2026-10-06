@@ -20,7 +20,7 @@ Revision: 2026-10-06. Covers the bottle holder, its mounting (nut bar, TPU gaske
 | Nut bar | 101.5 × 14 × 11.3 mm, ≈ 11 g PETG, ≈ 32 min |
 | Gasket | 1 mm TPU 95A, ≈ 1 g |
 | Hardware | 2 × M4 × 20 countersunk Torx (304 stainless), 2 × M4 nut ISO 4032 |
-| Strength (load / allowable) | {SUMMARY} |
+| Strength (load / allowable, ≤ 1 passes) | floating bottles **0.31** ✅; knocks by a full bottle 1.08–1.75 (see §5) |
 
 ## 2. How it works
 
@@ -72,7 +72,55 @@ The print times are from OrcaSlicer on a Bambu Lab A1: 0.4 mm nozzle, 0.6 mm lin
 
 ## 5. Strength of the holder (FEM)
 
-{FEM}
+**Model.**
+- Second-order tetrahedra (Gmsh), solved in CalculiX. PETG: E = 2200 MPa, ν = 0.38.
+- **Screws:** the countersink under each head is held fixed. A tightened screw keeps the joint closed (§6), so the seat acts as bonded.
+- **Bath wall:** a rigid plate on the tilted mounting plane. The holder's rear face is in frictionless contact with it (CalculiX node-to-surface contact): the wall can push the holder but cannot pull it.
+- **Failure criterion:** layered PETG, printed frame-down:
+
+```
+FI = sqrt( (σ_vM,in-plane / 40)² + (max(σ_zz, 0) / 20)² + (τ_interlayer / 15)² )    [MPa]
+```
+
+  - Strengths are reduced by 0.85 for the 38 °C bath.
+  - Safety factor 4 for the sustained load, 2 for knocks.
+  - The tables give the load divided by the allowable: **1.0 or less passes**.
+- **Knocks:** a full 0.7 kg bottle at 0.5 m/s carries E = 87.5 N·mm. The force follows from the stiffness k at the point of impact: F = √(2 E k).
+
+**Loads and results:**
+
+| Case | Force | Stiffness | Deflection | Load / allowable | Where, failure mode |
+|---|---|---|---|---|---|
+| Floating bottles, sustained | 2 × 5.9 N up | — | 0.26 mm | **0.31** ✅ | lower rear wall below screw 2; layer peel |
+| Full bottle hits the frame from above | 172 N | 169 N/mm | 1.0 mm | 1.08 | rear wall 6 mm beside screw 1; layer peel |
+| Full bottle hits the front edge | 136 N | 105 N/mm | 1.3 mm | 1.17 | frame at the front edge; in-plane |
+| Full bottle hits the divider sideways | 58 N | 19 N/mm | 3.0 mm | 1.75 | corner of the bottle opening; in-plane |
+
+**What the numbers mean.**
+- The sustained load uses less than a third of the allowable, so the holder does not creep in warm water.
+- Knocks use part of the safety factor of 2. Even the worst one, 1.75, stays below the material strength: about 0.9 of what warm PETG takes.
+- The divider is the softest place: it is a thin wall loaded sideways. A careless sideways knock is the one case to avoid.
+
+**Check of the calculation.** For every case the forces balance:
+- applied load + screw reactions + wall reaction = 0;
+- the wall reaction points exactly along the wall normal (z/x = 0.1317 = tan 7.5°), as it must without friction.
+
+The floating case stalled at 58 % of the load (one node kept flipping between touching and not touching). Frictionless contact with no initial gap is proportional to the load, so the last converged step was scaled to the full load.
+
+**Correction to earlier results.** An earlier version of the calculation found only 204 nodes on the rear face, out of 10 743: the search tolerance was too tight and the tilt was 7.547° instead of 7.5°. The wall then held the holder on a narrow strip only, so the holder seemed much softer and weaker (hit from above 1.98, floating 0.86). With the whole face in contact, the holder is stiffer. A knock therefore produces a larger force (172 N instead of 43 N), but the stress is lower.
+
+![Floating bottles](img/fem/story_1_buoyancy.png)
+![Hit from above](img/fem/story_2_top_impact.png)
+![Hit on the front edge](img/fem/story_3_front_impact.png)
+![Hit on the divider](img/fem/story_4_divider_impact.png)
+
+The pictures show the deformed shape, strongly exaggerated, over the undeformed outline. Colour shows deflection, from blue (none) to red (most). The arrows mark the load.
+
+![Deflection envelope of all four cases](img/fem/story_5_utilisation.png)
+
+[Animation of the four load cases](img/fem/loads_story.mp4)
+
+All numbers: [`fem_results.json`](fem_results.json). Method in detail: [`strength.md`](strength.md).
 
 ## 6. Screw joint
 
@@ -103,7 +151,14 @@ About 20 MPa is what PETG takes long-term at bath temperature without creeping. 
 
 **Service loads at the screws** from the FEM:
 
-{SCREWS}
+| Case | Screw 1, axial / lateral | Screw 2, axial / lateral |
+|---|---|---|
+| Floating bottles | 16 / 4 N | 16 / 8 N |
+| Hit from above | **201 / 122 N** | 108 / 49 N |
+| Hit on the front edge | 9 / 17 N | 29 / 13 N |
+| Hit on the divider | 40 / 27 N | 13 / 33 N |
+
+Screw 1 is in the bay at the end wall, screw 2 in the bay at the far wall. The rest of the moment goes into the bath wall as pressure on the rear face: up to 332 N in a hit from above.
 
 All of them are well below the 625 N preload, so the joint never opens. Lateral loads are carried by friction from the preload (μ ≈ 0.3 → ≈ 190 N per screw) and, beyond that, by the screw shank.
 

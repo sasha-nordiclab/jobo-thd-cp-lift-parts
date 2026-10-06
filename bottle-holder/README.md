@@ -24,6 +24,7 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 | `step/THD_CP_Lift_Holder_Module_Mirrored.step` | Mirrored module |
 | `step/THD_CP_Lift_Nut_Bar.step` | Nut bar; print two, the same part fits both modules |
 | `step/THD_CP_Lift_Gasket_TPU.step` | Gasket under the nut bar; print two in TPU 95A |
+| `docs/report.md` | Design report: how it works, assembly, calculations, FEM pictures |
 | `docs/strength.md` | How the part was checked and why it looks the way it does |
 | `scripts/fem/` | The strength calculation (CalculiX), for the default size |
 
@@ -115,16 +116,16 @@ Loads:
 
 | Load case | Load / allowable |
 |---|---|
-| Floating bottles (sustained) | 0.86 ✅ |
-| Bottle hits the frame from above | 1.98 |
-| Bottle hits the front edge | 1.15 |
-| Bottle hits the divider sideways | 1.73 |
+| Floating bottles (sustained) | 0.31 ✅ |
+| Bottle hits the frame from above | 1.08 |
+| Bottle hits the front edge | 1.17 |
+| Bottle hits the divider sideways | 1.75 |
 
 - A value of 1.0 or less passes with the full safety factor.
-- Values up to about 2 mean a careless knock is close to the material's limit. They occur at the top screw (layers peeling) and at the corner of the opening.
+- Values up to 2 use part of the safety factor of 2 but stay below the material strength. The worst case is a sideways knock on the divider, at the corner of the opening.
 - The front ledge and overall layout come from a holder that is already in use.
 
-Details, the design changes and rejected variants are in [docs/strength.md](docs/strength.md).
+The full design report (how it works, exploded view, screw and seal calculations, deformation pictures) is in [docs/report.md](docs/report.md). The method, the design changes and the rejected variants are in [docs/strength.md](docs/strength.md).
 
 ## License
 

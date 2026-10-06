@@ -9,15 +9,18 @@ The goal was a holder that is strong where it needs to be, prints fast, and uses
 **Screws.** The screws are tightened, so the joint stays closed while the load changes the screw force by less than the preload.
 - The countersink surface under each screw head is fixed.
 - The 6 mm bore has clearance and carries nothing.
-- Check after solving: under impact the axial screw force changes by at most 18 N, far below any preload of an M4 screw.
+- Check after solving: the largest screw force is 201 N axial and 122 N lateral (hit from above). Both are below the 625 N preload and the ≈ 190 N friction it provides, so the joint stays closed.
 
-**Lift wall.** The rear face is in frictionless one-sided contact with the lift wall: the wall can push the part but not pull it. This is solved with an active set:
-1. Hold every face node.
-2. Release the nodes the wall would have to pull.
-3. Re-add the nodes that move into the wall.
-4. Repeat until nothing changes.
+**Bath wall.** The rear face is in frictionless one-sided contact with the bath wall: the wall can push the part but not pull it.
+- The wall is a rigid hexahedral plate on the tilted mounting plane.
+- CalculiX solves the contact itself: node-to-surface, linear penalty 2·10⁴ MPa/mm, `ADJUST=0.002` to close round-off gaps.
+- All 10 743 nodes of the rear face take part.
+- The impacts are solved at 100 N and scaled to the impact force; the floating case at its real load. Frictionless contact with no initial gap is proportional to the load, so the scaling is exact.
+- The floating case stalls at 58 % of the load (one node flips between touching and not touching). The last converged step is scaled to the full load.
 
-Each solve is checked for equilibrium: the sum of the reactions equals the applied load.
+**Check of every solve.** Applied load + screw reactions + wall reaction = 0, and the wall reaction points along the wall normal (z/x = tan 7.5°).
+
+An earlier version used its own active-set loop and found only 204 face nodes: the tolerance was too tight and the plane was tilted 7.547° instead of 7.5°. The holder then bore on a narrow strip only, which made it look softer and weaker. The numbers below replace those results.
 
 **Failure criterion.** The part is printed frame-down, so the layers lie normal to the model Z axis, and the criterion follows them:
 
@@ -45,12 +48,16 @@ Each impact is turned into a force by its energy. With E = ½ m v² = 87.5 N·mm
 
 | Case | Force | Load / allowable | Where |
 |---|---|---|---|
-| Floating bottles | 11.8 N | **0.86** | layer peel at the rear-wall / frame junction near screw 2 |
-| Hit from above | 43 N | 1.98 | layer peel in the rear wall just below screw 1 |
-| Hit on the front edge | 133 N | 1.15 | frame at the front edge |
-| Hit on the divider | 57 N | 1.73 | corner of the bottle opening |
+| Floating bottles | 11.8 N | **0.31** ✅ | layer peel in the lower rear wall below screw 2 |
+| Hit from above | 172 N (k = 169 N/mm) | 1.08 | layer peel in the rear wall beside screw 1 |
+| Hit on the front edge | 136 N (k = 105 N/mm) | 1.17 | frame at the front edge |
+| Hit on the divider | 58 N (k = 19 N/mm) | 1.75 | corner of the bottle opening |
 
-A finer mesh (maximum element size 1.8 mm) raises the peaks by 10–12 %.
+With the whole rear face in contact, the holder is much stiffer under a hit from above (169 instead of 8 N/mm). A knock therefore produces a larger force, but a lower stress.
+
+On the old strip-contact model, a finer mesh (maximum element size 1.8 mm) raised the peaks by 10–12 %. Expect a similar margin here.
+
+The design changes below were compared on the old strip-contact model. Their ranking holds, but the absolute numbers are from that model.
 
 ## What changed against the previous version, and why
 
@@ -77,7 +84,7 @@ The scripts in `scripts/fem/` are written for the default size: screw positions 
 
 ```sh
 gmsh module.step -3 -order 2 -setnumber Mesh.SecondOrderLinear 1 -clmax 2.5 -clmin 0.8 -format inp -o module.inp
-CASES=BUOY,HIT_TOP,HIT_FRONT,HIT_DIVIDER python3 scripts/fem/fem4.py module.inp result
+CASES=BUOY,HIT_TOP,HIT_FRONT,HIT_DIVIDER python3 scripts/fem/fem6.py module.inp result   # 10-30 min per case
 ```
 
 Export `module.step` from the `Module` body with its placement reset to identity. The model coordinates are those of the body.

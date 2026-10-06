@@ -6,7 +6,7 @@
 
 | Part | What it does | Folder |
 |---|---|---|
-| **Bottle holder** | An optimised redesign for this machine: holds four standard JOBO bottles in the water bath. It mounts with stainless countersunk screws through the 3 mm bath wall into a printed nut bar. Strength-checked by FEM. | [`bottle-holder/`](bottle-holder/) |
+| **Bottle holder** | An optimised redesign for this machine: holds four standard JOBO bottles in the water bath. It mounts with stainless countersunk screws through the 3 mm bath wall into a printed nut bar. Strength-checked by FEM; see the [design report](bottle-holder/docs/report.md). | [`bottle-holder/`](bottle-holder/) |
 | **Drum mount** | Holds a JOBO drum on the lift, with a sliding lock and a printed spring. | [`drum-mount/`](drum-mount/) |
 
 ## Common notes
