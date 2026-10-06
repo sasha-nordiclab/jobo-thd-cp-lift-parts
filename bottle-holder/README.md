@@ -3,7 +3,7 @@
 An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It holds **four standard JOBO bottles** in the water bath.
 
 - It mounts with stainless steel countersunk screws through the 3 mm bath wall. A printed nut bar on the outside of the bath holds the nuts.
-- Each module holds two bottles. Print one **Module**, one **Module mirrored** and two **Nut bars**.
+- Each module holds two bottles. Print one **Module**, one **Module mirrored**, two **Nut bars** (PETG) and four **Seals** (TPU).
 
 ▶ **Videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PLADhkNYpSGAc)
 
@@ -23,6 +23,7 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 | `step/THD_CP_Lift_Holder_Module.step` | Module, for slicing or other CAD |
 | `step/THD_CP_Lift_Holder_Module_Mirrored.step` | Mirrored module |
 | `step/THD_CP_Lift_Nut_Bar.step` | Nut bar; print two, the same part fits both modules |
+| `step/THD_CP_Lift_Seal_TPU.step` | Seal for each bath hole; print four in TPU 95A |
 | `docs/strength.md` | How the part was checked and why it looks the way it does |
 | `scripts/fem/` | The strength calculation (CalculiX), for the default size |
 
@@ -42,6 +43,7 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 - 2 × **M4 × 20 countersunk Torx screws**, 304 stainless (ISO 14581, 90° head Ø 8.4 mm). They fit the Ø 9.2 mm countersink.
 - 2 × **M4 nuts** ISO 4032, stainless.
 - 1 × **printed nut bar**.
+- 2 × **TPU seals**.
 
 The screws go in from the bottle side, through the holder and the bath's Ø 6.6 mm holes. The nuts sit in the hex pockets of the nut bar on the outside of the bath.
 
@@ -58,6 +60,12 @@ The screws go in from the bottle side, through the holder and the bath's Ø 6.6 
 
 The nut bar is sized to the screw. `bolt_len` in the spreadsheet sets the screw length, and the bar thickness follows (12.3 mm for M4 × 20, at least 5.4 mm). The tip then ends just past the nut and does not stick out behind the bath; `bolt_tip` shows the overhang.
 
+- **Sealing the bath holes.** A printed TPU 95A seal sits on each screw between the holder and the bath wall, so water does not leak out through the holes.
+  - The Ø 15 mm flange lies in a 0.8 mm groove in the holder's rear face and is squeezed by 0.4 mm. The holder still bears on the bath wall plastic to plastic, so neither the strength check nor the screw length changes.
+  - The Ø 6.4 mm sleeve fills the bath hole.
+  - Its Ø 3.6 mm bore grips the M4 thread, which closes the path along the screw.
+  - The bath pressure is tiny (0.01–0.02 bar for 10–20 cm of water).
+  - Print the seals flange down, 100 % infill.
 - The bath holes are a standard M6 clearance (6.6 mm). The M4 screws have play in them, but the countersunk heads and the nut bar hold everything in place.
 - The rear face of the holder is tilted 7.5° to sit flat on the bath wall.
 - Each bottle's side rib catches the ledge under the front of the frame, so a floating bottle cannot lift out.
