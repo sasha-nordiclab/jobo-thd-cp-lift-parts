@@ -7,13 +7,10 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 
 ▶ **Videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PLADhkNYpSGAc)
 
-![Two modules on the bath wall with nut bars and gaskets](docs/img/assembled.png)
-
-| Bottle side | Bath side |
-|---|---|
-| ![Bottle side](docs/img/view_1_bottle_side.png) | ![Bath side](docs/img/view_2_bath_side.png) |
-| **Side** | **Top** |
-| ![Side](docs/img/view_3_side.png) | ![Top](docs/img/view_4_top.png) |
+<table align="center">
+  <tr><td align="center"><img src="docs/img/view_1_bottle_side.png" width="400" alt="Bottle side"><br><b>Bottle side</b></td><td align="center"><img src="docs/img/view_2_bath_side.png" width="400" alt="Bath side"><br><b>Bath side</b></td></tr>
+  <tr><td align="center"><img src="docs/img/view_3_side.png" width="400" alt="Side"><br><b>Side</b></td><td align="center"><img src="docs/img/view_4_top.png" width="400" alt="Top"><br><b>Top</b></td></tr>
+</table>
 
 | | Per module |
 |---|---|
@@ -48,9 +45,9 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 
 ## Mounting
 
-![Exploded view: holder, bath wall, TPU gasket, nut bar, nuts](docs/img/exploded.png)
+<p align="center"><img src="docs/img/exploded.png" width="640" alt="Exploded view: holder, bath wall, TPU gasket, nut bar, nuts"></p>
 
-[▶ Explode animation](docs/img/exploded.mp4)
+<p align="center"><a href="docs/img/exploded.mp4">▶ Explode animation</a></p>
 
 **Per module you need:**
 - 2 × **M4 × 20 countersunk Torx screws**, 304 stainless (ISO 14581, 90° head Ø 8.4 mm). They fit the Ø 9.2 mm countersink.
@@ -139,13 +136,12 @@ Loads:
 
 Deformation under each load, strongly exaggerated (colour = deflection, arrows = load):
 
-| Floating bottles | Hit from above |
-|---|---|
-| ![Floating bottles](docs/img/fem/story_1_buoyancy.png) | ![Hit from above](docs/img/fem/story_2_top_impact.png) |
-| **Hit on the front edge** | **Hit on the divider** |
-| ![Hit on the front edge](docs/img/fem/story_3_front_impact.png) | ![Hit on the divider](docs/img/fem/story_4_divider_impact.png) |
+<table align="center">
+  <tr><td align="center"><img src="docs/img/fem/story_1_buoyancy.png" width="400" alt="Floating bottles"><br><b>Floating bottles</b></td><td align="center"><img src="docs/img/fem/story_2_top_impact.png" width="400" alt="Hit from above"><br><b>Hit from above</b></td></tr>
+  <tr><td align="center"><img src="docs/img/fem/story_3_front_impact.png" width="400" alt="Hit on the front edge"><br><b>Hit on the front edge</b></td><td align="center"><img src="docs/img/fem/story_4_divider_impact.png" width="400" alt="Hit on the divider"><br><b>Hit on the divider</b></td></tr>
+</table>
 
-[▶ Animation of all four load cases](docs/img/fem/loads_story.mp4)
+<p align="center"><a href="docs/img/fem/loads_story.mp4">▶ Animation of all four load cases</a></p>
 
 The full design report (how it works, exploded view, screw and seal calculations, deformation pictures) is in [docs/report.md](docs/report.md). The method, the design changes and the rejected variants are in [docs/strength.md](docs/strength.md).
 

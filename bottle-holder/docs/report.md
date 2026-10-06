@@ -2,7 +2,7 @@
 
 Revision: 2026-10-06. Covers the bottle holder, its mounting (nut bar, TPU gasket, screws) and the checks behind each decision.
 
-![Assembled module, seen from the bath side](img/assembled.png)
+<p align="center"><img src="img/view_1_bottle_side.png" width="640" alt="Two modules on the bath wall: four bottles"></p>
 
 ## 1. Summary
 
@@ -24,7 +24,7 @@ Revision: 2026-10-06. Covers the bottle holder, its mounting (nut bar, TPU gaske
 
 ## 2. How it works
 
-![Exploded view: holder, bath wall, TPU gasket, nut bar, nuts](img/exploded.png)
+<p align="center"><img src="img/exploded.png" width="640" alt="Exploded view: holder, bath wall, TPU gasket, nut bar, nuts"></p>
 
 [Explode animation](img/exploded.mp4)
 
@@ -109,14 +109,14 @@ The floating case stalled at 58 % of the load (one node kept flipping between to
 
 **Correction to earlier results.** An earlier version of the calculation found only 204 nodes on the rear face, out of 10 743: the search tolerance was too tight and the tilt was 7.547° instead of 7.5°. The wall then held the holder on a narrow strip only, so the holder seemed much softer and weaker (hit from above 1.98, floating 0.86). With the whole face in contact, the holder is stiffer. A knock therefore produces a larger force (172 N instead of 43 N), but the stress is lower.
 
-![Floating bottles](img/fem/story_1_buoyancy.png)
-![Hit from above](img/fem/story_2_top_impact.png)
-![Hit on the front edge](img/fem/story_3_front_impact.png)
-![Hit on the divider](img/fem/story_4_divider_impact.png)
+<table align="center">
+  <tr><td align="center"><img src="img/fem/story_1_buoyancy.png" width="400" alt="Floating bottles"><br><b>Floating bottles</b></td><td align="center"><img src="img/fem/story_2_top_impact.png" width="400" alt="Hit from above"><br><b>Hit from above</b></td></tr>
+  <tr><td align="center"><img src="img/fem/story_3_front_impact.png" width="400" alt="Hit on the front edge"><br><b>Hit on the front edge</b></td><td align="center"><img src="img/fem/story_4_divider_impact.png" width="400" alt="Hit on the divider"><br><b>Hit on the divider</b></td></tr>
+</table>
 
 The pictures show the deformed shape, strongly exaggerated, over the undeformed outline. Colour shows deflection, from blue (none) to red (most). The arrows mark the load.
 
-![Deflection envelope of all four cases](img/fem/story_5_utilisation.png)
+<p align="center"><img src="img/fem/story_5_utilisation.png" width="480" alt="Deflection envelope of all four cases"></p>
 
 [Animation of the four load cases](img/fem/loads_story.mp4)
 

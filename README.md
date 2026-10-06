@@ -9,9 +9,9 @@
 | **Bottle holder** | An optimised redesign for this machine: holds four standard JOBO bottles in the water bath. It mounts with stainless countersunk screws through the 3 mm bath wall into a printed nut bar. Strength-checked by FEM; see the [design report](bottle-holder/docs/report.md). | [`bottle-holder/`](bottle-holder/) |
 | **Drum mount** | Holds a JOBO drum on the lift, with a sliding lock and a printed spring. | [`drum-mount/`](drum-mount/) |
 
-| Bottle holder, assembled | Exploded |
-|---|---|
-| ![Bottle holder assembly](bottle-holder/docs/img/assembled.png) | ![Bottle holder exploded](bottle-holder/docs/img/exploded.png) |
+<table align="center">
+  <tr><td align="center"><img src="bottle-holder/docs/img/view_1_bottle_side.png" width="400" alt="Bottle holder"><br><b>Bottle holder</b></td><td align="center"><img src="bottle-holder/docs/img/exploded.png" width="400" alt="Exploded view"><br><b>Exploded view</b></td></tr>
+</table>
 
 ## Common notes
 
