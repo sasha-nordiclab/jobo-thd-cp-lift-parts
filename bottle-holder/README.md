@@ -11,7 +11,7 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 |---|---|
 | Size | 120.4 × 159.5 × 73.5 mm |
 | Bottle opening | 93.4 × 71.4 mm, corner radius 4 mm (×2) |
-| Mounting | 2 × M4 × 14 countersunk screws (stainless) + 2 nuts in a nut bar |
+| Mounting | 2 × M4 × 20 countersunk Torx screws (304 stainless) + 2 nuts in a nut bar |
 | Material | PETG |
 | Mass / print time | ≈ 126 g / ≈ 3 h (solid, see [Printing](#printing)) |
 
@@ -39,29 +39,29 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 ## Mounting
 
 **Per module you need:**
-- 2 × **M4 × 14 countersunk screws**, stainless A2/A4. ISO 10642 (hex socket) or DIN 7991 both fit the 90° Ø 9.2 mm countersink.
+- 2 × **M4 × 20 countersunk Torx screws**, 304 stainless (ISO 14581, 90° head Ø 8.4 mm). They fit the Ø 9.2 mm countersink.
 - 2 × **M4 nuts** ISO 4032, stainless.
 - 1 × **printed nut bar**.
 
 The screws go in from the bottle side, through the holder and the bath's Ø 6.6 mm holes. The nuts sit in the hex pockets of the nut bar on the outside of the bath.
 
-**Why 14 mm.** The stack along the screw:
+**The stack along the screw:**
 
 | Part of the stack | mm |
 |---|---|
-| Head top to the holder's mounting face (ISO 10642 head) | 4.3 |
+| Head top to the holder's mounting face | 4.0 |
 | Bath wall | 3.0 |
-| Nut bar under the nut; it bridges the Ø 6.6 mm hole | 2.0 |
-| Nut ISO 4032 | 3.2 |
-| Thread past the nut (1 pitch) | 0.7 |
-| **Minimum** | **13.2 → M4 × 14** |
+| Nut bar under the nut | 8.9 |
+| Nut ISO 4032, flush in its pocket | 3.2 + 0.2 |
+| Screw tip past the nut | 0.9 |
+| **Total** | **20** |
 
-A 10 mm screw ends 2.7 mm past the bath wall, too short even for a bare nut. A standard M4 nut is 7 mm across flats, so it would bear on only a 0.2 mm rim of a 6.6 mm hole anyway. With thin nuts (ISO 4035, 2.2 mm), set `nut_m` to 2.2: the bar gets 1 mm thinner and M4 × 12 is enough. The spreadsheet cell `bolt_min` always shows the minimum screw length.
+The nut bar is sized to the screw. `bolt_len` in the spreadsheet sets the screw length, and the bar thickness follows (12.3 mm for M4 × 20, at least 5.4 mm). The tip then ends just past the nut and does not stick out behind the bath; `bolt_tip` shows the overhang.
 
 - The bath holes are a standard M6 clearance (6.6 mm). The M4 screws have play in them, but the countersunk heads and the nut bar hold everything in place.
 - The rear face of the holder is tilted 7.5° to sit flat on the bath wall.
 - Each bottle's side rib catches the ledge under the front of the frame, so a floating bottle cannot lift out.
-- Print the nut bar flat, bath side down, with the pockets facing up: about 22 min and 9 g solid.
+- Print the nut bar flat, bath side down, with the pockets facing up: about 40 min, 16 g (as is) to 21 g (solid).
 
 ## Adapting it to other bottles
 
@@ -84,7 +84,7 @@ What follows automatically:
 - **Build:** wall and frame thickness, gaps.
 - **Mount:** wall tilt, screw positions, bosses.
 - **Lightening:** recess depths (0 = none).
-- **Nut bar:** bath wall, nut size, bar thickness and width, plus `bolt_min`, the minimum screw length.
+- **Nut bar:** bath wall, nut size, bar thickness and width, plus the screw length `bolt_len`.
 
 Do not edit the **Derived** cells.
 
