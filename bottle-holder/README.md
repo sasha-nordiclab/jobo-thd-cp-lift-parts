@@ -5,7 +5,7 @@
 An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It holds **four standard JOBO bottles** in the water bath.
 
 - It mounts with stainless steel countersunk screws through the 3 mm bath wall. A printed nut bar on the outside of the bath holds the nuts.
-- Each module holds two bottles. Print one **Module**, one **Module mirrored**, two **Nut bars** (PETG) and two **Gaskets** (TPU).
+- Each module holds two bottles. Print one **Module**, one **Module mirrored**, two **Nut bars** (PETG), two **Gaskets** and four **Bottle stands** (TPU).
 
 ▶ **Videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PLADhkNYpSGAc)
 
@@ -26,11 +26,12 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
 
 | Path | What |
 |---|---|
-| `cad/THD_CP_Lift_Bottle_Holder.FCStd` | Parametric FreeCAD model: bodies `Module` and `Nut bar`, plus their mirrors |
+| `cad/THD_CP_Lift_Bottle_Holder.FCStd` | Parametric FreeCAD model: bodies `Module`, `Nut_Bar`, `Gasket`, `Bottle_Stand`, the mirrors, and an `Assembly` with the screws, nuts and a reference bath |
 | `step/THD_CP_Lift_Holder_Module.step` | Module, for slicing or other CAD |
 | `step/THD_CP_Lift_Holder_Module_Mirrored.step` | Mirrored module |
 | `step/THD_CP_Lift_Nut_Bar.step` | Nut bar; print two, the same part fits both modules |
 | `step/THD_CP_Lift_Gasket_TPU.step` | Gasket under the nut bar; print two in TPU 95A |
+| `step/THD_CP_Lift_Bottle_Stand_TPU.step` | Bottle stand glued to the bath floor; print four in TPU 95A |
 | `docs/report.md` | Design report: how it works, assembly, calculations, FEM pictures |
 | `docs/strength.md` | How the part was checked and why it looks the way it does |
 | `scripts/fem/` | The strength calculation (CalculiX), for the default size |
@@ -44,6 +45,33 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
   - 5 walls of 0.6 mm fill the 3 mm walls exactly, and 100 % infill makes the 3.6 mm frame solid.
   - On thin-walled parts like this, 100 % rectilinear was faster than 40 % cubic.
 - **Result:** in OrcaSlicer on a Bambu Lab A1, about 3 h 05 min and 126 g per module.
+
+| Part | Qty | Material | Orientation | Time / mass each |
+|---|---|---|---|---|
+| Module, Module mirrored | 1 + 1 | PETG | frame face down | ≈ 3 h 05 min, 126 g |
+| Nut bar | 2 | PETG | bath side down, nut pockets up | ≈ 32 min, 11 g |
+| Gasket | 2 | TPU 95A | flat, sleeves up, 100 % | ≈ 12 min, 1 g |
+| Bottle stand | 4 | TPU 95A | glue face down | ≈ 1 h 16 min, 11 g |
+
+## Bottle stands
+
+A small TPU stand under each bottle, glued to the floor of the bath. The bottle rests on it instead of on the bath floor, so water flows under and around the bottle.
+
+- Rounded frame 45 × 35 mm, 20 mm tall, 2.4 mm walls, with a cross inside.
+- **Glue face:** a solid 1.2 mm base, about 1540 mm² of flat surface. The stand is printed on this face, so it is flat and ready for glue.
+- **Water flow:** every wall and the cross have windows from the top of the base up to 13 mm. No cell is closed, so water flows straight through and nothing is trapped when the bath is drained.
+- The windows have 45° pointed tops, so TPU prints them without supports.
+- Position: centred under each bottle opening; the stand's base is 145 mm below the top of the frame (`stand_drop`).
+- All sizes are in `params`: `stand_dx`, `stand_dy`, `stand_h`, `stand_r`, `stand_w`, `stand_base`, `stand_win_top`, `stand_drop`.
+
+<p align="center"><img src="docs/img/bottle_stand.png" width="400" alt="TPU bottle stand"></p>
+
+## Assembly in the model
+
+The FreeCAD file contains an `Assembly` (Assembly workbench) with both modules, the nut bars, the gaskets, the four stands, 4 × M4 × 20 ISO 14581 screws, 4 × M4 ISO 4032 nuts, and a reference bath wall and floor.
+- Every position follows the spreadsheet, including the wall tilt, the screw length and the stand depth.
+- The screws and nuts come from the **Fasteners** workbench; install it from the Addon Manager to open the assembly.
+- In the Fasteners objects the screw length is a fixed 20 mm. If you change `bolt_len`, change it there too.
 
 ## Mounting
 

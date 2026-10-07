@@ -56,6 +56,7 @@ Revision: 2026-10-06. Covers the bottle holder, its mounting (nut bar, TPU gaske
 | Module mirrored | 1 | PETG | same |
 | Nut bar | 2 | PETG | bath side down, pockets up: ≈ 32 min, 11 g |
 | Gasket | 2 | TPU 95A | flat, sleeves up, 100 % |
+| Bottle stand | 4 | TPU 95A | glue face down: ≈ 1 h 16 min, 11 g; glued to the bath floor under each bottle |
 | Countersunk Torx screw M4 × 20, 304 stainless | 4 | — | — |
 | Nut M4 ISO 4032, stainless | 4 | — | — |
 
@@ -211,7 +212,7 @@ The gasket is pressed on several hundred times harder than the water pushes. Its
 
 | Path | What |
 |---|---|
-| `../cad/THD_CP_Lift_Bottle_Holder.FCStd` | Parametric model: Module, Nut bar, Gasket, and their mirrors |
+| `../cad/THD_CP_Lift_Bottle_Holder.FCStd` | Parametric model: Module, Nut bar, Gasket, Bottle stand, their mirrors, and the Assembly |
 | `../step/` | STEP of every printed part |
 | `strength.md` | FEM method in detail |
 | `../scripts/fem/` | Calculation scripts (CalculiX, Gmsh) |
