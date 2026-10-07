@@ -1,4 +1,4 @@
-# JOBO / THD CP-Lift parts
+# THD CP-Lift parts
 
 3D-printable parts for working with JOBO drums on the THD CP-Lift. Each part is a parametric FreeCAD model with STEP files and printing notes.
 
