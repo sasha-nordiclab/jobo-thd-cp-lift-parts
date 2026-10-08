@@ -13,15 +13,17 @@ A two-part clamp that holds the 220 V THD bath heater horizontally on the bath f
 
 ### How the model is built
 
-Each part is built from features centred on the heater axis, plus one side (+Y): the ear, the screw hole and the pilot hole. A single PartDesign **Mirrored** across the XZ plane then makes the −Y side. To change a hole or an ear, edit the +Y feature; the mirror follows.
+Both parts are symmetric about the vertical plane through the heater axis. Each one is modelled as its +Y half and mirrored once:
 
-| Base | Cap |
-|---|---|
-| `b_block`: the block, symmetric | `k_ring`, `k_trim`, `k_bore`: the half ring, symmetric |
-| `b_bed`: the half-round bed | `k_ear`: the +Y ear, with the R`k_er` round |
-| `b_pilot`: the +Y octagonal pilot hole | `k_oct`, `k_hole`: the +Y octagon and the countersink (PartDesign Hole) |
-| `b_mirror`: mirrors the pilot to −Y | `k_mirror`: mirrors the ear and its holes to −Y |
-| `b_bed_chamfer`, `b_top_chamfer`: end-face chamfers | `k_bed_chamfer`, `k_top_chamfer`: end-face chamfers |
+| Step | Base | Cap |
+|---|---|---|
+| 1. Half profile sketch | `s_b_half`: block and half bed | `s_k_half`: half bore, ear with the R`k_er` round, half ring |
+| 2. Pad, symmetric, `c_len` | `b_half` | `k_half` |
+| 3. Screw hole on +Y | `b_pilot`: octagonal pilot | `k_oct` and `k_hole`: octagon and countersink (PartDesign Hole) |
+| 4. End-face chamfers | `b_bed_chamfer`, `b_top_chamfer` | `k_bed_chamfer`, `k_top_chamfer` |
+| 5. Mirror the whole half across XZ | `b_mirror` | `k_mirror` |
+
+The constraints in the half-profile sketches carry readable names, such as `axis_z`, `half_width`, `bore_r` and `ear_top`.
 
 Every sketch is fully constrained, and every size comes from the `params` spreadsheet. Change a value there and recompute. Checked with a 24 mm head, a 25 mm head length, an 18 mm axis height, and 54 mm wide ears.
 

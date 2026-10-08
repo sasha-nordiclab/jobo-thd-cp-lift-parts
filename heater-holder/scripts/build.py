@@ -9,8 +9,9 @@ Coordinates: z = 0 is the bath floor (base glue face), the heater axis runs alon
 x = 0 is the joint between the rubber head (x < 0) and the rod (x > 0).
 
 Clamp: two bodies split at the axis with a gap k_gap.
-Symmetry: each body is built from features centred on the axis plus ONE side (+Y: ear, screw hole,
-pilot); a single PartDesign Mirrored across XZ makes the -Y side. The second screw is an App::Link.
+Symmetry: each body is ONE sketch of its +Y half profile (DoF 0, every size from params), padded
+symmetric about the head middle, its +Y screw hole and end chamfers, then ONE PartDesign Mirrored
+(TransformMode "Whole shape") of the finished half across the XZ plane. The second screw is an App::Link.
 
 - Base: a solid block on the floor with a half-round bed for the head and two blind octagonal M4 pilot holes;
   the screws form their own thread in the PETG. Printed on its glue face.
@@ -63,7 +64,6 @@ PARAMS = [
     ('k_ro', 'c_bd / 2 + k_w', 'Cap ring outer radius'),
     ('k_top', 'k_bot + k_t', 'Z of the cap ear top (screw heads flush)'),
     ('e_w', 'e_h * tan(e_a * 1deg)', 'Bed chamfer width on the bed face'),
-    ('k_ey', '(c_bd / 2 + sqrt(k_ro^2 - (k_top - ax_z)^2)) / 2', 'Ear inner edge: between the bore and the ring outside at the ear top, so the ear merges into the ring wall and the mirrored ear never refills the bore'),
     ('b_pil', 'min(s_pl; b_top - 1.8)', 'Pilot depth actually cut: never closer than 1.8 mm to the glue face'),
     ('c_x', '-hd_l / 2', 'X of the clamp middle plane (head middle)'),
 ]
@@ -101,15 +101,95 @@ def octagon(f, y):
     return [(f'c_x + {r}*cos({22.5 + 45*k}deg)', f'{y} + {r}*sin({22.5 + 45*k}deg)') for k in range(8)]
 
 
-def mirror_xz(body, name, originals):
-    """PartDesign Mirrored of the +Y features across the XZ plane (heater axis plane)."""
+# Half profiles (+Y) in the YZ mid plane: sketch x = Y (>= 0, the mirror plane is x = 0), sketch y = Z.
+# Written with the Sketcher API because they need arcs; every dimension is a params expression, DoF 0.
+HALF_SKETCH_HEAD = '''import FreeCAD as App, Part, Sketcher, math
+V, C = App.Vector, Sketcher.Constraint
+d = App.ActiveDocument
+P = d.getObject("params")
+def p(n):
+    v = P.get(n); return float(getattr(v, "Value", v))
+def sketch(body, name, plane):
+    b = d.getObject(body)
+    s = b.newObject("Sketcher::SketchObject", name)
+    s.AttachmentSupport = [(d.getObject(plane), "")]; s.MapMode = "FlatFace"
+    return s
+def line(s, a, b):
+    return s.addGeometry(Part.LineSegment(V(*a, 0), V(*b, 0)))
+def arc(s, c, r, a0, a1):
+    return s.addGeometry(Part.ArcOfCircle(Part.Circle(V(*c, 0), V(0, 0, 1), r), a0, a1))
+def dim(s, con, name, expr):
+    i = s.addConstraint(con); s.renameConstraint(i, name); s.setExpression(f"Constraints.{name}", expr)
+def done(s):
+    d.recompute()
+    dof = s.solve(); n = s.getGeometryFacade if False else None
+    assert s.FullyConstrained, (s.Name, "not fully constrained", s.MalformedConstraints, s.Conflicting, s.Redundant)
+    return f"{s.Name}: DoF 0, {s.ConstraintCount} constraints"
+'''
+
+# base half: bottom -> outer side -> top (split face) -> bed arc down to the axis line -> mirror line
+BASE_HALF = '''
+s = sketch("Base", "s_b_half", "b_mid")
+r, w, zt, az = p("c_bd") / 2, p("c_bw") / 2, p("b_top"), p("ax_z")
+yd = math.sqrt(r * r - (az - zt) ** 2)
+l_bot = line(s, (0, 0), (w, 0))
+l_side = line(s, (w, 0), (w, zt))
+l_top = line(s, (w, zt), (yd, zt))
+a_bed = arc(s, (0, az), r, -math.pi / 2, -math.asin((az - zt) / r))
+l_mir = line(s, (0, az - r), (0, 0))
+s.addConstraint([C("Coincident", l_bot, 1, -1, 1), C("Coincident", l_bot, 2, l_side, 1),
+                 C("Coincident", l_side, 2, l_top, 1), C("Coincident", l_top, 2, a_bed, 2),
+                 C("Coincident", a_bed, 1, l_mir, 1), C("Coincident", l_mir, 2, l_bot, 1),
+                 C("Horizontal", l_bot), C("Vertical", l_side), C("Horizontal", l_top), C("Vertical", l_mir),
+                 C("PointOnObject", a_bed, 3, -2)])
+dim(s, C("DistanceX", l_bot, 1, l_bot, 2, w), "half_width", "params.c_bw / 2")
+dim(s, C("DistanceY", l_side, 1, l_side, 2, zt), "base_top", "params.b_top")
+dim(s, C("DistanceY", -1, 1, a_bed, 3, az), "axis_z", "params.ax_z")
+dim(s, C("Radius", a_bed, r), "bed_r", "params.c_bd / 2")
+done(s)'''
+
+# cap half: bore arc from the split face up to the mirror line, split face, outer side, ear round,
+# ear top, ring arc back to the mirror line
+CAP_HALF = '''
+s = sketch("Cap", "s_k_half", "k_mid")
+r, ro, w, zb, ztop, az, er = (p(n) for n in ("c_bd", "k_ro", "c_bw", "k_bot", "k_top", "ax_z", "k_er"))
+r, w = r / 2, w / 2
+yg = math.sqrt(r * r - (zb - az) ** 2)
+yk = math.sqrt(ro * ro - (ztop - az) ** 2)
+a_bore = arc(s, (0, az), r, math.asin((zb - az) / r), math.pi / 2)
+l_bot = line(s, (yg, zb), (w, zb))
+l_side = line(s, (w, zb), (w, ztop - er))
+a_round = arc(s, (w - er, ztop - er), er, 0, math.pi / 2)
+l_top = line(s, (w - er, ztop), (yk, ztop))
+a_ring = arc(s, (0, az), ro, math.asin((ztop - az) / ro), math.pi / 2)
+l_mir = line(s, (0, az + ro), (0, az + r))
+s.addConstraint([C("PointOnObject", a_bore, 3, -2), C("Coincident", a_ring, 3, a_bore, 3),
+                 C("Coincident", a_bore, 1, l_bot, 1), C("Horizontal", l_bot),
+                 C("Coincident", l_bot, 2, l_side, 1), C("Vertical", l_side),
+                 C("Tangent", l_side, 2, a_round, 1), C("Tangent", a_round, 2, l_top, 1), C("Horizontal", l_top),
+                 C("Coincident", l_top, 2, a_ring, 1), C("Coincident", a_ring, 2, l_mir, 1),
+                 C("Coincident", l_mir, 2, a_bore, 2), C("Vertical", l_mir), C("PointOnObject", l_mir, 1, -2)])
+dim(s, C("DistanceY", -1, 1, a_bore, 3, az), "axis_z", "params.ax_z")
+dim(s, C("Radius", a_bore, r), "bore_r", "params.c_bd / 2")
+dim(s, C("Radius", a_ring, ro), "ring_r", "params.k_ro")
+dim(s, C("Radius", a_round, er), "ear_round", "params.k_er")
+dim(s, C("DistanceY", -1, 1, l_bot, 1, zb), "split_z", "params.k_bot")
+dim(s, C("DistanceX", -1, 1, l_bot, 2, w), "half_width", "params.c_bw / 2")
+dim(s, C("DistanceY", -1, 1, l_top, 1, ztop), "ear_top", "params.k_top")
+done(s)'''
+
+
+def mirror_xz(body, name):
+    """PartDesign Mirrored of the whole finished +Y half across the XZ plane (heater axis plane)."""
     return f'''import FreeCAD as App
 d = App.ActiveDocument
 b = d.getObject({body!r})
 prev = b.Tip
 mi = d.addObject("PartDesign::Mirrored", {name!r})
-mi.Originals = [{', '.join('d.' + o for o in originals)}]
 b.addObject(mi)
+mi.TransformMode = "Whole shape"
+if mi.BaseFeature != prev: mi.BaseFeature = prev
+b.Tip = mi  # with no Originals the body does not move its Tip by itself
 mi.MirrorPlane = ([f for f in b.Origin.OriginFeatures if f.Role == "XZ_Plane"][0], [""])
 mi.Refine = True  # merge the coplanar faces where the two halves meet
 d.recompute()
@@ -119,14 +199,15 @@ f"{{mi.Name}}: valid {{mi.Shape.isValid()}} solids {{len(mi.Shape.Solids)}} V {{
 
 
 def bed_chamfer(body, name, x_expr='-hd_l'):
-    """Chamfer on all edges lying in the end face x = x_expr: e_h along X, e_w on the face."""
+    """Chamfer on the half's edges in the end face x = x_expr (not the mirror-plane edge): e_h along X, e_w on the face."""
     return f'''import FreeCAD as App
 d = App.ActiveDocument
 b = d.getObject({body!r}); tip = b.Tip
 x0 = d.getObject("params").evalExpression({x_expr!r})
 x0 = float(getattr(x0, "Value", x0))
 edges = [f"Edge{{i}}" for i, e in enumerate(tip.Shape.Edges, 1)
-         if abs(e.BoundBox.XMin - x0) < 1e-6 and abs(e.BoundBox.XMax - x0) < 1e-6]
+         if abs(e.BoundBox.XMin - x0) < 1e-6 and abs(e.BoundBox.XMax - x0) < 1e-6
+         and not (abs(e.BoundBox.YMin) < 1e-6 and abs(e.BoundBox.YMax) < 1e-6)]  # not on the mirror plane
 ch = b.newObject("PartDesign::Chamfer", {name!r})
 ch.Base = (tip, edges)
 ch.ChamferType = "Two distances"
@@ -156,22 +237,21 @@ b.Label = "Heater"
 b.ViewObject.ShapeColor = (0.78, 0.78, 0.80)
 bb = b.Shape.BoundBox
 f"heater x {bb.XMin:.2f}..{bb.XMax:.2f} z {bb.ZMin:.2f}..{bb.ZMax:.2f} V {b.Shape.Volume:.1f} valid {b.Shape.isValid()}"''',
-    # ================= base: symmetric block and bed on the axis, one pilot hole on +Y, mirrored
+    # ================= base: half profile (+Y) -> pad -> +Y pilot hole -> mirror of the whole half
     new_body('Base', (0.62, 0.84, 0.74)),
-    "plane('b_mid','YZ','c_x'); "
-    "sk('s_b_block','b_mid'); rect('s_b_block','c_bw','b_top',0,'b_top/2'); pad('s_b_block','c_len','b_block',side='sym'); "
-    "sk('s_b_bed','b_mid'); circ('s_b_bed','c_bd',0,'ax_z'); pocket('s_b_bed','c_len + 2','b_bed',side='sym'); "
+    "plane('b_mid','YZ','c_x')",
+    HALF_SKETCH_HEAD + BASE_HALF,
+    "pad('s_b_half','c_len','b_half',side='sym'); "
     f"plane('b_top_pl','XY','b_top'); sk('s_b_pilot','b_top_pl'); poly('s_b_pilot', {octagon('s_pd', 's_y')!r}); "
     "pocket('s_b_pilot','b_pil','b_pilot')",
-    mirror_xz('Base', 'b_mirror', ['b_pilot']),
-    # ================= cap: symmetric ring on the axis, one ear with its screw hole on +Y, mirrored
+    bed_chamfer('Base', 'b_bed_chamfer'),
+    bed_chamfer('Base', 'b_top_chamfer', '0'),
+    mirror_xz('Base', 'b_mirror'),
+    # ================= cap: half profile (+Y) -> pad -> +Y screw hole -> mirror of the whole half
     new_body('Cap', (0.70, 0.78, 0.95)),
-    "plane('k_mid','YZ','c_x'); "
-    "sk('s_k_ring','k_mid'); circ('s_k_ring','2*k_ro',0,'ax_z'); pad('s_k_ring','c_len','k_ring',side='sym'); "
-    "sk('s_k_trim','k_mid'); rect('s_k_trim','2*k_ro + 2','k_ro + 1',0,'k_bot - (k_ro + 1)/2'); pocket('s_k_trim','c_len + 2','k_trim',side='sym'); "
-    "sk('s_k_bore','k_mid'); circ('s_k_bore','c_bd',0,'ax_z'); pocket('s_k_bore','c_len + 2','k_bore',side='sym'); "
-    "sk('s_k_ear','k_mid'); rect('s_k_ear','c_bw/2 - k_ey','k_t','(c_bw/2 + k_ey)/2','k_bot + k_t/2'); fil('s_k_ear',('c_bw/2','k_top'),'k_er'); pad('s_k_ear','c_len','k_ear',side='sym')",
-    # +Y screw hole: octagon through the ear, then the countersink for ISO 14581 (PartDesign Hole)
+    "plane('k_mid','YZ','c_x')",
+    HALF_SKETCH_HEAD + CAP_HALF,
+    "pad('s_k_half','c_len','k_half',side='sym'); "
     "plane('k_hole_pl','XY','k_bot'); "
     f"sk('s_k_oct','k_hole_pl'); poly('s_k_oct', {octagon('s_cd', 's_y')!r}); pocket('s_k_oct','2*k_t','k_oct',side='sym'); "
     "plane('k_top_pl','XY','k_top'); sk('s_k_hole','k_top_pl'); circ('s_k_hole','s_cd','c_x','s_y'); "
@@ -180,7 +260,9 @@ f"heater x {bb.XMin:.2f}..{bb.XMax:.2f} z {bb.ZMin:.2f}..{bb.ZMax:.2f} V {b.Shap
     "h.HoleCutType = 'Countersink'; h.setExpression('HoleCutDiameter', 'params.s_kd'); h.setExpression('HoleCutCountersinkAngle', 'params.s_ka'); "
     "h.DepthType = 'ThroughAll'; h.DrillPoint = 'Flat'; d.getObject('s_k_hole').Visibility = False; d.recompute(); "
     "(b.Tip.Name, h.Shape.isValid(), round(h.Shape.Volume, 1), h.getStatusString())",
-    mirror_xz('Cap', 'k_mirror', ['k_ear', 'k_oct', 'k_hole']),
+    bed_chamfer('Cap', 'k_bed_chamfer'),
+    bed_chamfer('Cap', 'k_top_chamfer', '0'),
+    mirror_xz('Cap', 'k_mirror'),
     # screw on +Y from the Fasteners workbench, head flush with the ear top; the -Y one is a link
     '''import FreeCAD as App
 import FastenersCmd
@@ -202,12 +284,6 @@ l.setExpression(".Placement.Base.z", "params.k_top")
 d.recompute()
 l.Label = a.Label + "_Mirror"  # Fasteners relabels the screw on recompute
 f"{a.Label}: z {a.Shape.BoundBox.ZMin:.2f}..{a.Shape.BoundBox.ZMax:.2f}; link at {tuple(round(v, 2) for v in l.Placement.Base)}"''',
-    # chamfers on every edge of both end faces of both parts (30 deg from the print vertical)
-    bed_chamfer('Base', 'b_bed_chamfer'),
-    bed_chamfer('Cap', 'k_bed_chamfer'),
-    # same chamfer on the top end faces x = 0
-    bed_chamfer('Base', 'b_top_chamfer', '0'),
-    bed_chamfer('Cap', 'k_top_chamfer', '0'),
     # finish: hide construction, show tips only, save, report
     '''import FreeCAD as App, Part
 d = App.ActiveDocument
