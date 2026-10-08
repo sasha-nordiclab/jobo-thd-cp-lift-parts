@@ -2,6 +2,8 @@
 
 A two-part clamp that holds the 220 V THD bath heater horizontally on the bath floor. The base is glued to the floor. The cap is pulled down onto the soft rubber head of the heater by two M4 screws. The clamp has no snap, so thermal swell of the head or the plastic does not matter.
 
+⬇️ **Download:** [Base](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/heater-holder/step/THD_Heater_Holder_Base.step) · [Cap](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/heater-holder/step/THD_Heater_Holder_Cap.step) · [FreeCAD model](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/heater-holder/cad/THD_Heater_Holder.FCStd)
+
 ## Model
 
 **Working model:** [THD_Heater_Holder.FCStd](cad/THD_Heater_Holder.FCStd), rebuilt from scratch with `python3 scripts/build.py` (fdmkit over RPC). All sizes are in the `params` spreadsheet.

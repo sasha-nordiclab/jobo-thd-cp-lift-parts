@@ -2,6 +2,8 @@
 
 **Release:** [v1.0](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/tag/bottle-holder-v1.0). Download the STEP files and the FreeCAD model as one zip.
 
+⬇️ **Download:** [Module](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module.step) · [Module, mirrored](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module_Mirrored.step) · [Nut bar](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Nut_Bar.step) · [Gasket (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Gasket_TPU.step) · [Bottle stand (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Bottle_Stand_TPU.step) · [FreeCAD model](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/cad/THD_CP_Lift_Bottle_Holder.FCStd) · [v1.0 release zip](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/download/bottle-holder-v1.0/bottle-holder-v1.0.zip)
+
 An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It holds **four standard JOBO bottles** in the water bath.
 
 - It mounts with stainless steel countersunk screws through the 3 mm bath wall. A printed nut bar on the outside of the bath holds the nuts.

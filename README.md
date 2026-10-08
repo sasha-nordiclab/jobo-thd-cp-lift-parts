@@ -4,6 +4,20 @@
 
 ▶ **Videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PLADhkNYpSGAc)
 
+## Downloads
+
+Each link downloads the file directly. STEP files open in any CAD program or slicer. The FCStd files are the parametric FreeCAD models.
+
+| Part | Print files (STEP) | FreeCAD model | Everything in one zip |
+|---|---|---|---|
+| **Bottle holder** | [Module](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module.step) · [Module, mirrored](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module_Mirrored.step) · [Nut bar](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Nut_Bar.step) · [Gasket (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Gasket_TPU.step) · [Bottle stand (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Bottle_Stand_TPU.step) | [FCStd](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/cad/THD_CP_Lift_Bottle_Holder.FCStd) | [v1.0 release zip](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/download/bottle-holder-v1.0/bottle-holder-v1.0.zip) |
+| **Heater holder** | [Base](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/heater-holder/step/THD_Heater_Holder_Base.step) · [Cap](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/heater-holder/step/THD_Heater_Holder_Cap.step) | [FCStd](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/heater-holder/cad/THD_Heater_Holder.FCStd) | — |
+| **Drum mount** (experimental) | [Mount](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/drum-mount/step/JoboDrumMount_Mount.step) · [Lock](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/drum-mount/step/JoboDrumMount_Lock.step) | [FCStd](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/drum-mount/cad/JoboDrumMount.FCStd) | — |
+
+The whole repository as a zip: [main.zip](https://github.com/sasha-nordiclab/thd-cp-lift-parts/archive/refs/heads/main.zip). Screws, nuts and print settings for each part are in its README.
+
+## Parts
+
 | Part | What it does | Status | Folder |
 |---|---|---|---|
 | **Bottle holder** | An optimised redesign for this machine: holds four standard JOBO bottles in the water bath. It mounts with stainless countersunk screws through the 3 mm bath wall into a printed nut bar. Strength-checked by FEM; see the [design report](bottle-holder/docs/report.md). | ✅ [v1.0 release](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/tag/bottle-holder-v1.0) | [`bottle-holder/`](bottle-holder/) |
