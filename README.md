@@ -8,6 +8,7 @@
 |---|---|---|---|
 | **Bottle holder** | An optimised redesign for this machine: holds four standard JOBO bottles in the water bath. It mounts with stainless countersunk screws through the 3 mm bath wall into a printed nut bar. Strength-checked by FEM; see the [design report](bottle-holder/docs/report.md). | ✅ [v1.0 release](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/tag/bottle-holder-v1.0) | [`bottle-holder/`](bottle-holder/) |
 | **Drum mount** | Holds a JOBO drum on the lift, with a sliding lock and a printed spring. | 🧪 Experimental, work in progress, no release | [`drum-mount/`](drum-mount/) |
+| **Heater holder** | A PETG clamp that holds the 220 V bath heater horizontally, 15 mm above the bath floor. The base is glued to the floor, and the cap is screwed down with two M4 countersunk Torx screws that form their own thread in the plastic. | 🧪 New, not print-tested yet, no release | [`heater-holder/`](heater-holder/) |
 
 <table align="center">
   <tr><td align="center"><img src="bottle-holder/docs/img/view_1_bottle_side.png" width="400" alt="Bottle holder"><br><b>Bottle holder</b></td><td align="center"><img src="bottle-holder/docs/img/exploded.png" width="400" alt="Exploded view"><br><b>Exploded view</b></td></tr>
