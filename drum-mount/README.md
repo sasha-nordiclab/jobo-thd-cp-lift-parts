@@ -1,7 +1,11 @@
 # JOBO drum mount for the THD CP-Lift
 
 > [!WARNING]
-> **Experimental, work in progress.** This part is still being developed and has no release yet. The geometry may change, and it has not been strength-checked. Print and use it at your own risk.
+> **Experimental, work in progress.** The geometry may change, and it has not been strength-checked. Print and use it at your own risk.
+
+**Experimental release:** [v0.1](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/tag/drum-mount-v0.1). [Download the complete ZIP](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/download/drum-mount-v0.1/drum-mount-v0.1.zip).
+
+<p align="center"><img src="docs/img/release_v0_1_overview.png" width="440" alt="Drum mount and sliding lock"><img src="docs/img/release_v0_1_top.png" width="440" alt="Drum mount and lock from above"></p>
 
 ⬇️ **Download:** [Mount](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/drum-mount/step/JoboDrumMount_Mount.step) · [Lock](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/drum-mount/step/JoboDrumMount_Lock.step) · [FreeCAD model](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/drum-mount/cad/JoboDrumMount.FCStd)
 

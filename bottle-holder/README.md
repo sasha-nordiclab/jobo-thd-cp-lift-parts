@@ -1,8 +1,8 @@
 # THD CP-Lift bottle holder
 
-**Latest model:** download the files linked below from `main`. The [v1.0 release](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/tag/bottle-holder-v1.0) is an older archived version.
+**Release:** [v1.1](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/tag/bottle-holder-v1.1) has the latest pair of frames. The [v1.0 release](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/tag/bottle-holder-v1.0) is archived.
 
-⬇️ **Download:** [Module](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module.step) · [Module, mirrored](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module_Mirrored.step) · [Nut bar](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Nut_Bar.step) · [Gasket (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Gasket_TPU.step) · [Bottle stand (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Bottle_Stand_TPU.step) · [FreeCAD model](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/cad/THD_CP_Lift_Bottle_Holder.FCStd) · [Latest project zip](https://github.com/sasha-nordiclab/thd-cp-lift-parts/archive/refs/heads/main.zip)
+⬇️ **Download:** [Module](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module.step) · [Module, mirrored](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Holder_Module_Mirrored.step) · [Nut bar](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Nut_Bar.step) · [Gasket (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Gasket_TPU.step) · [Bottle stand (TPU)](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/step/THD_CP_Lift_Bottle_Stand_TPU.step) · [FreeCAD model](https://github.com/sasha-nordiclab/thd-cp-lift-parts/raw/main/bottle-holder/cad/THD_CP_Lift_Bottle_Holder.FCStd) · [v1.1 ZIP](https://github.com/sasha-nordiclab/thd-cp-lift-parts/releases/download/bottle-holder-v1.1/bottle-holder-v1.1.zip)
 
 An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It holds **four standard JOBO bottles** in the water bath.
 
@@ -15,6 +15,10 @@ An optimised redesign of the bottle holder, reworked for the THD CP-Lift. It hol
   <tr><td align="center"><img src="docs/img/view_1_bottle_side.png" width="400" alt="Bottle side"><br><b>Bottle side</b></td><td align="center"><img src="docs/img/view_2_bath_side.png" width="400" alt="Bath side"><br><b>Bath side</b></td></tr>
   <tr><td align="center"><img src="docs/img/view_3_side.png" width="400" alt="Side"><br><b>Side</b></td><td align="center"><img src="docs/img/view_4_top.png" width="400" alt="Top"><br><b>Top</b></td></tr>
 </table>
+
+Latest frame geometry: [isometric view](docs/img/release_v1_1_overview.png) · [top view](docs/img/release_v1_1_top.png).
+
+<p align="center"><img src="docs/img/release_v1_1_overview.png" width="640" alt="Current four-bottle frame, made from two mirrored modules"></p>
 
 | | Per module |
 |---|---|
