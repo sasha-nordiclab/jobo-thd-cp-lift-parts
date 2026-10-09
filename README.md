@@ -24,6 +24,10 @@ The whole repository as a zip: [main.zip](https://github.com/sasha-nordiclab/thd
 | **Drum mount** | Holds a JOBO drum on the lift, with a sliding lock and a printed spring. | 🧪 Experimental, work in progress, no release | [`drum-mount/`](drum-mount/) |
 | **Heater holder** | A PETG clamp that holds the 220 V bath heater horizontally, 15 mm above the bath floor. The base is glued to the floor, and the cap is screwed down with two M4 countersunk Torx screws that form their own thread in the plastic. | 🧪 New, not print-tested yet, no release | [`heater-holder/`](heater-holder/) |
 
+## Shared pump model and accessories
+
+The [ROTEK A01VP repository](https://github.com/sasha-nordiclab/ROTEK-A01VP) holds the parametric reference model of the Rotek circulation pump and compatible accessories, starting with a TPU vibration-damping holder. The same pump is used in the JOBO Repair Parts project. The [FreeCAD model](https://github.com/sasha-nordiclab/ROTEK-A01VP/blob/main/cad/TPU_Pump_Holder.FCStd) contains both the pump and the holder.
+
 <table align="center">
   <tr><td align="center"><img src="bottle-holder/docs/img/view_1_bottle_side.png" width="400" alt="Bottle holder"><br><b>Bottle holder</b></td><td align="center"><img src="bottle-holder/docs/img/exploded.png" width="400" alt="Exploded view"><br><b>Exploded view</b></td></tr>
 </table>
