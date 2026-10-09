@@ -18,9 +18,9 @@ A two-part mount that holds a JOBO drum on the THD CP-Lift:
 
 | Path | What |
 |---|---|
-| `cad/JoboDrumMount.FCStd` | Parametric FreeCAD model: bodies `Mount` and `Lock`, plus an assembly that shows how they fit |
+| `cad/JoboDrumMount.FCStd` | Parametric FreeCAD model: bodies `Mount` and `Lock`, the final `LockMirror` feature, and an assembly that shows how they fit |
 | `step/JoboDrumMount_Mount.step` | Mount |
-| `step/JoboDrumMount_Lock.step` | Lock |
+| `step/JoboDrumMount_Lock.step` | Lock, exported from `LockMirror` |
 
 ## Printing
 

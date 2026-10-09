@@ -1,4 +1,4 @@
-# THD heater holder — PETG clamp
+# THD heater holder — ABS clamp
 
 A two-part clamp that holds the 220 V THD bath heater horizontally on the bath floor. The base is glued to the floor. The cap is pulled down onto the soft rubber head of the heater by two M4 screws. The clamp has no snap, so thermal swell of the head or the plastic does not matter.
 
@@ -10,8 +10,8 @@ A two-part clamp that holds the 220 V THD bath heater horizontally on the bath f
 
 - Body **Heater**: a reference mock-up. The rod is Ø16 × 110, the rubber head Ø20 × 20.
 - Body **Base**: glued to the floor, with a half-round bed for the head.
-- Body **Cap**: a half ring with two ears.
-- **Screw** is an M4 × 16 ISO 14581 (countersunk Torx) from the Fasteners workbench. **Screw_Mirror** is an `App::Link` to it.
+- Body **Cap**: a plain block with a half-round bore, screwed onto the base.
+- **Screw** is an M4 × 25 ISO 14581 (countersunk Torx) from the Fasteners workbench. **Screw_Mirror** is an `App::Link` to it.
 
 ### How the model is built
 
@@ -19,15 +19,15 @@ Both parts are symmetric about the vertical plane through the heater axis. Each 
 
 | Step | Base | Cap |
 |---|---|---|
-| 1. Half profile sketch | `s_b_half`: block and half bed | `s_k_half`: half bore, ear with the R`k_er` round, half ring |
+| 1. Half profile sketch | `s_b_half`: block with a corner round and the half bed | `s_k_half`: block with a corner round and the half bore |
 | 2. Pad, symmetric, `c_len` | `b_half` | `k_half` |
 | 3. Screw hole on +Y | `b_pilot`: octagonal pilot | `k_oct` and `k_hole`: octagon and countersink (PartDesign Hole) |
 | 4. End-face chamfers | `b_bed_chamfer`, `b_top_chamfer` | `k_bed_chamfer`, `k_top_chamfer` |
 | 5. Mirror the whole half across XZ | `b_mirror` | `k_mirror` |
 
-The constraints in the half-profile sketches carry readable names, such as `axis_z`, `half_width`, `bore_r` and `ear_top`.
+The constraints in the half-profile sketches carry readable names, such as `axis_z`, `half_width`, `bore_r` and `cap_top`.
 
-Every sketch is fully constrained, and every size comes from the `params` spreadsheet. Change a value there and recompute. Checked with a 24 mm head, a 25 mm head length, an 18 mm axis height, and 54 mm wide ears.
+Every sketch is fully constrained, and every size comes from the `params` spreadsheet. Change a value there and recompute. Checked with a 24 mm head, a 25 mm head length, an 18 mm axis height and a 54 mm width.
 
 ### Coordinates
 
@@ -42,9 +42,9 @@ Every sketch is fully constrained, and every size comes from the `params` spread
 | Length along the axis | `c_len` = the full head length, 20 mm |
 | Bore | Ø19.8 (`c_fit` 0.2 undersize), split at the axis with a `k_gap` 0.6 mm gap |
 | Base | a solid block, 46 × 20 mm on the floor and 14.7 mm high, with a half-round bed |
-| Cap | a half ring, 3 mm wall, with two flat 6 mm ears |
-| Screws | 2 × M4 × 16 ISO 14581, 304 stainless, at ±16.5 mm. The heads sit flush in 90° countersinks (Ø9.6) |
-| Thread | the screws form their own thread in octagonal blind pilot holes in the base: 3.5 mm across flats, 12 mm deep. The screw bites into the flats, and the corners take the chips. Engagement is 9.4 mm |
+| Cap | a plain block, 46 × 20 × 12.6 mm, with a half-round bore. Together with the base it makes one rectangular block split at the axis. The outer corners have an R1.5 round (`k_er`) |
+| Screws | 2 × M4 × 25 ISO 14581, 304 stainless, at ±14.5 mm. The heads sit flush in 90° countersinks (Ø9.6) |
+| Thread | the screws form their own thread in octagonal blind pilot holes in the base: 3.5 mm across flats, 13 mm deep. The screw bites into the flats, and the corners take the chips. Engagement is 11.8 mm |
 
 Tightening the screws closes the gap, so the rubber head is squeezed by about 0.8 mm in height.
 
@@ -58,13 +58,15 @@ The heater bottom is 5 mm above the floor and the rod bottom 7 mm, so water flow
 
 ## Print
 
-PETG, profile "0.20mm NordicLab 0.6 Ballance", 100 % zig-zag, Bambu A1:
+ABS (AzureFilm ABS Plus), profile "0.20mm NordicLab 0.6 Ballance", 100 % zig-zag, Bambu A1:
 
 | Part | Orientation | Time | Mass |
 |---|---|---|---|
-| Base | on its end face x = −20 (profile on the bed) | 32 min 9 s | 12.9 g |
-| Cap | on its end face x = −20 (profile on the bed) | 21 min 50 s | 5.3 g |
+| Base | on its end face x = −20 (profile on the bed) | 36 min 0 s | 10.2 g |
+| Cap | on its end face x = −20 (profile on the bed) | 32 min 30 s | 7.9 g |
 
-Every edge of both end faces has a chamfer: 1.2 mm along the print vertical at 30° from vertical, so 0.69 mm on the face (`e_h`, `e_a`). On the bed face it prevents elephant foot. The outer top edges of the cap ears are rounded with R1.5 (`k_er`); they run along the print vertical.
+ABS warps on the open A1. Both parts have a plain rectangular outline with rounded outer corners. Use a brim.
+
+Every edge of both end faces has a chamfer: 1.2 mm along the print vertical at 30° from vertical, so 0.69 mm on the face (`e_h`, `e_a`). On the bed face it prevents elephant foot. The four outer corners of the block are rounded with R1.5 (`k_er`); they run along the print vertical.
 
 All screw holes are octagons, with a flat facing up in the end-face print: a short bridge (< 2 mm) on top and 45° sides. The cap clearance holes are 4.5 mm across flats. The upper part of the 90° countersink is 45° from vertical, which is slightly over the 40° limit, but it is only about 2.5 mm deep.

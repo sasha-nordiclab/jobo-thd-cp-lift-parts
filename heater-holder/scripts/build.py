@@ -1,5 +1,5 @@
 """Rebuild THD_Heater_Holder from scratch in the running FreeCAD: the 220 V heater mock-up and the
-PETG clamp for its rubber head. Every step is one fdmkit run() batch sent over XML-RPC; it stops at
+ABS clamp for its rubber head. Every step is one fdmkit run() batch sent over XML-RPC; it stops at
 the first ERR. The camera is kept across the rebuild.
 
   python3 scripts/build.py          closes the document and rebuilds everything
@@ -14,9 +14,9 @@ symmetric about the head middle, its +Y screw hole and end chamfers, then ONE Pa
 (TransformMode "Whole shape") of the finished half across the XZ plane. The second screw is an App::Link.
 
 - Base: a solid block on the floor with a half-round bed for the head and two blind octagonal M4 pilot holes;
-  the screws form their own thread in the PETG. Printed on its glue face.
-- Cap: a half ring with two flat ears and countersunk octagonal M4 clearance holes for
-  ISO 14581 M4 x 16 screws from the Fasteners workbench. Printed on its end
+  the screws form their own thread in the ABS. Printed on its end face.
+- Cap: a plain block with a half-round bore and countersunk octagonal M4 clearance holes for
+  ISO 14581 M4 x 25 screws from the Fasteners workbench. Printed on its end
   face x = -hd_l (profile on the bed), so the bore and the ears need no support.
 Tightening the screws closes the gap and squeezes the rubber head; no snap, so heat swell is harmless.
 """
@@ -43,14 +43,13 @@ PARAMS = [
     ('c_fit', 0.2, 'Bore undersize on the soft rubber head (diametral)'),
     ('c_bw', 46, 'Width across the axis: base glue face and cap ears'),
     ('k_gap', 0.6, 'Gap between base and cap at the axis: the screws close it and squeeze the rubber'),
-    ('k_t', 6, 'Cap ear thickness above the split: the countersink must clear the ring'),
-    ('k_w', 3, 'Cap ring wall over the head (5 x 0.6)'),
-    ('k_er', 1.5, 'Round on the outer top edges of the cap ears (stays clear of the countersink rim)'),
-    (None, 'SCREWS M4 x 16 ISO 14581 (countersunk Torx, Fasteners WB)', None),
-    ('s_len', 16, 'Screw length, head included (ISO 14581 measures overall)'),
-    ('s_y', 16.5, 'Screw axis offset from the heater axis, across'),
+    ('k_w', 3, 'Cap wall over the head (5 x 0.6)'),
+    ('k_er', 1.5, 'Round on the four outer corners of the block (ABS: no sharp corners on the bed); max 1.7, the countersink rim'),
+    (None, 'SCREWS M4 x 25 ISO 14581 (countersunk Torx, Fasteners WB)', None),
+    ('s_len', 25, 'Screw length, head included (ISO 14581 measures overall)'),
+    ('s_y', 14.5, 'Screw axis offset from the heater axis, across: countersink rim 2.2 mm from the corner round, walls to the bore >= 2.35'),
     ('s_pd', 3.5, 'Octagonal pilot hole in the base, across flats: the M4 screw forms its thread in the flats'),
-    ('s_pl', 12, 'Pilot hole depth from the base top'),
+    ('s_pl', 13, 'Pilot hole depth from the base top'),
     ('s_cd', 4.5, 'Octagonal clearance hole in the cap ears, across flats'),
     ('s_kd', 9.6, 'Countersink diameter: ISO 14581 M4 dk theoretical 9.4 + 0.2 (Fasteners FsData/iso14581def.csv)'),
     ('s_ka', 90, 'Countersink angle, deg (ISO 14581 head)'),
@@ -61,8 +60,8 @@ PARAMS = [
     ('c_bd', 'hd_d - c_fit', 'Bore diameter'),
     ('b_top', 'ax_z - k_gap / 2', 'Z of the base top (split face)'),
     ('k_bot', 'ax_z + k_gap / 2', 'Z of the cap bottom (split face)'),
-    ('k_ro', 'c_bd / 2 + k_w', 'Cap ring outer radius'),
-    ('k_top', 'k_bot + k_t', 'Z of the cap ear top (screw heads flush)'),
+    ('k_top', 'ax_z + c_bd / 2 + k_w', 'Z of the cap top (screw heads flush)'),
+    ('k_t', 'k_top - k_bot', 'Cap thickness'),
     ('e_w', 'e_h * tan(e_a * 1deg)', 'Bed chamfer width on the bed face'),
     ('b_pil', 'min(s_pl; b_top - 1.8)', 'Pilot depth actually cut: never closer than 1.8 mm to the glue face'),
     ('c_x', '-hd_l / 2', 'X of the clamp middle plane (head middle)'),
@@ -79,7 +78,7 @@ def params_batch():
         else:
             lines.append(f's.set("A{r}", {name!r}); s.set("B{r}", {"=" + str(val)!r}); s.setAlias("B{r}", {name!r}); s.set("C{r}", {desc!r})')
     lines += ['s.setColumnWidth("A", 110); s.setColumnWidth("C", 560)', 'App.ActiveDocument.recompute()',
-              "P('c_bd', 'b_top', 'k_bot', 'k_ro')"]
+              "P('c_bd', 'b_top', 'k_bot', 'k_top', 'k_t', 'b_pil')"]
     return '\n'.join(lines)
 
 
@@ -127,55 +126,54 @@ def done(s):
     return f"{s.Name}: DoF 0, {s.ConstraintCount} constraints"
 '''
 
-# base half: bottom -> outer side -> top (split face) -> bed arc down to the axis line -> mirror line
+# base half: bottom -> outer corner round -> outer side -> top (split face) -> bed arc -> mirror line
 BASE_HALF = '''
 s = sketch("Base", "s_b_half", "b_mid")
-r, w, zt, az = p("c_bd") / 2, p("c_bw") / 2, p("b_top"), p("ax_z")
+r, w, zt, az, er = p("c_bd") / 2, p("c_bw") / 2, p("b_top"), p("ax_z"), p("k_er")
 yd = math.sqrt(r * r - (az - zt) ** 2)
-l_bot = line(s, (0, 0), (w, 0))
-l_side = line(s, (w, 0), (w, zt))
+l_bot = line(s, (0, 0), (w - er, 0))
+a_round = arc(s, (w - er, er), er, -math.pi / 2, 0)
+l_side = line(s, (w, er), (w, zt))
 l_top = line(s, (w, zt), (yd, zt))
 a_bed = arc(s, (0, az), r, -math.pi / 2, -math.asin((az - zt) / r))
 l_mir = line(s, (0, az - r), (0, 0))
-s.addConstraint([C("Coincident", l_bot, 1, -1, 1), C("Coincident", l_bot, 2, l_side, 1),
-                 C("Coincident", l_side, 2, l_top, 1), C("Coincident", l_top, 2, a_bed, 2),
-                 C("Coincident", a_bed, 1, l_mir, 1), C("Coincident", l_mir, 2, l_bot, 1),
-                 C("Horizontal", l_bot), C("Vertical", l_side), C("Horizontal", l_top), C("Vertical", l_mir),
+s.addConstraint([C("Coincident", l_bot, 1, -1, 1), C("Horizontal", l_bot),
+                 C("Tangent", l_bot, 2, a_round, 1), C("Tangent", a_round, 2, l_side, 1), C("Vertical", l_side),
+                 C("Coincident", l_side, 2, l_top, 1), C("Horizontal", l_top), C("Coincident", l_top, 2, a_bed, 2),
+                 C("Coincident", a_bed, 1, l_mir, 1), C("Coincident", l_mir, 2, l_bot, 1), C("Vertical", l_mir),
                  C("PointOnObject", a_bed, 3, -2)])
-dim(s, C("DistanceX", l_bot, 1, l_bot, 2, w), "half_width", "params.c_bw / 2")
-dim(s, C("DistanceY", l_side, 1, l_side, 2, zt), "base_top", "params.b_top")
+dim(s, C("DistanceX", -1, 1, l_side, 1, w), "half_width", "params.c_bw / 2")
+dim(s, C("DistanceY", -1, 1, l_side, 2, zt), "base_top", "params.b_top")
+dim(s, C("Radius", a_round, er), "corner_round", "params.k_er")
 dim(s, C("DistanceY", -1, 1, a_bed, 3, az), "axis_z", "params.ax_z")
 dim(s, C("Radius", a_bed, r), "bed_r", "params.c_bd / 2")
 done(s)'''
 
-# cap half: bore arc from the split face up to the mirror line, split face, outer side, ear round,
-# ear top, ring arc back to the mirror line
+# cap half: a plain block: bore arc from the split face up to the mirror line, split face, outer
+# side, corner round, top back to the mirror line
 CAP_HALF = '''
 s = sketch("Cap", "s_k_half", "k_mid")
-r, ro, w, zb, ztop, az, er = (p(n) for n in ("c_bd", "k_ro", "c_bw", "k_bot", "k_top", "ax_z", "k_er"))
+r, w, zb, ztop, az, er = (p(n) for n in ("c_bd", "c_bw", "k_bot", "k_top", "ax_z", "k_er"))
 r, w = r / 2, w / 2
 yg = math.sqrt(r * r - (zb - az) ** 2)
-yk = math.sqrt(ro * ro - (ztop - az) ** 2)
 a_bore = arc(s, (0, az), r, math.asin((zb - az) / r), math.pi / 2)
 l_bot = line(s, (yg, zb), (w, zb))
 l_side = line(s, (w, zb), (w, ztop - er))
 a_round = arc(s, (w - er, ztop - er), er, 0, math.pi / 2)
-l_top = line(s, (w - er, ztop), (yk, ztop))
-a_ring = arc(s, (0, az), ro, math.asin((ztop - az) / ro), math.pi / 2)
-l_mir = line(s, (0, az + ro), (0, az + r))
-s.addConstraint([C("PointOnObject", a_bore, 3, -2), C("Coincident", a_ring, 3, a_bore, 3),
+l_top = line(s, (w - er, ztop), (0, ztop))
+l_mir = line(s, (0, ztop), (0, az + r))
+s.addConstraint([C("PointOnObject", a_bore, 3, -2),
                  C("Coincident", a_bore, 1, l_bot, 1), C("Horizontal", l_bot),
                  C("Coincident", l_bot, 2, l_side, 1), C("Vertical", l_side),
                  C("Tangent", l_side, 2, a_round, 1), C("Tangent", a_round, 2, l_top, 1), C("Horizontal", l_top),
-                 C("Coincident", l_top, 2, a_ring, 1), C("Coincident", a_ring, 2, l_mir, 1),
-                 C("Coincident", l_mir, 2, a_bore, 2), C("Vertical", l_mir), C("PointOnObject", l_mir, 1, -2)])
+                 C("Coincident", l_top, 2, l_mir, 1), C("Coincident", l_mir, 2, a_bore, 2), C("Vertical", l_mir),
+                 C("PointOnObject", l_mir, 1, -2)])
 dim(s, C("DistanceY", -1, 1, a_bore, 3, az), "axis_z", "params.ax_z")
 dim(s, C("Radius", a_bore, r), "bore_r", "params.c_bd / 2")
-dim(s, C("Radius", a_ring, ro), "ring_r", "params.k_ro")
-dim(s, C("Radius", a_round, er), "ear_round", "params.k_er")
+dim(s, C("Radius", a_round, er), "corner_round", "params.k_er")
 dim(s, C("DistanceY", -1, 1, l_bot, 1, zb), "split_z", "params.k_bot")
 dim(s, C("DistanceX", -1, 1, l_bot, 2, w), "half_width", "params.c_bw / 2")
-dim(s, C("DistanceY", -1, 1, l_top, 1, ztop), "ear_top", "params.k_top")
+dim(s, C("DistanceY", -1, 1, l_top, 1, ztop), "cap_top", "params.k_top")
 done(s)'''
 
 
@@ -305,7 +303,8 @@ for n, s in (("base", ba), ("cap", ca)):
     bb = s.BoundBox
     out.append(f"{n} y {bb.YMin:.1f}..{bb.YMax:.1f} z {bb.ZMin:.2f}..{bb.ZMax:.2f} V {s.Volume:.0f} valid {s.isValid()} solids {len(s.Solids)}")
 out.append(f"overlap heater/base {h.common(ba).Volume:.1f} heater/cap {h.common(ca).Volume:.1f} base/cap {ba.common(ca).Volume:.2f}")
-out.append(f"material on screw axis: base {probe(ba, 0, 15, 16.5)} (expect 15-0.3-12=2.7) cap {probe(ca, 15, 30, 16.5)} (expect 0)")
+sy = float(getattr(d.getObject("params").get("s_y"), "Value", d.getObject("params").get("s_y")))
+out.append(f"material on screw axis: base {probe(ba, 0, 15, sy)} (floor under the pilot, min 1.8) cap {probe(ca, 15, 30, sy)} (expect 0)")
 out.append(f"bad {bad}")
 " | ".join(out)''',
 ]
